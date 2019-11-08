@@ -1,11 +1,12 @@
 # ViewController Life-Cycle
 
->내비게이션 컨트롤러 동작은 자료구조 Stack과 같다.</br> Pop을 하면 Stack에서 빠진 ViewController의 메모리가 사라진다
+>내비게이션 컨트롤러 동작은 자료구조 Stack과 같다.</br> Pop을 하면 Stack에서 빠진 ViewController의 메모리가 사라진다.
 
 - **loadView()**
   - 본격적으로 화면에 띄어질 View를 만드는 메소드.
+  - 뷰를 만드는 역할을 한다. loadView가 뷰를 만들고 메모리에 올린 후에 viewDidLoad가 호출된다.
   - storyboard 나 .nib파일로 만들어지는 경우가 아닌 모두 직접적으로 코딩하여 만드는 경우를 제외하고서는 override하지 않는 것이 좋다.
-  - outlet들과 action들이 이 메소드에서 생성되고 연결됩니다.
+  - outlet들과 action들이 이 메소드에서 생성된다.
 - **viewDidLoad()**
   - 해당 뷰컨트롤러 클래스가 생성될 때(ViewWillAppear전에 실행) 실행됨.
   - 뷰의 컨트롤러가 메모리에 로드되고 난 후에 호출된다.
