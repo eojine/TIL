@@ -51,3 +51,12 @@ if let hasName =  people?.score?.testName {
     }
 }
 ```
+
+### Nil Coalescing Operator
+값을 변경하지 않은 채, nil인경우 예외적으로 특정 값으로 표현된다.
+```swift
+var myScore: Int?
+if myScore ?? 0 < 50 {
+    print("number")
+}
+```
