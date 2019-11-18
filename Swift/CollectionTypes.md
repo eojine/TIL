@@ -1,4 +1,4 @@
-# Colelction Types
+# Collection Types
 
 > Array, Set, Dictionary
 
