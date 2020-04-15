@@ -92,3 +92,101 @@ public class Prim_Prac {
             "4 6 3";
 }
 ```
+
+## Prim 인접리스트, Priority Queue
+```java
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class Prim_PQ {
+    static class Edge implements Comparable<Edge> {
+        int dest;
+        int cost;
+
+        Edge(int d, int c) {
+            dest = d;
+            cost = c;
+        }
+
+        @Override
+        public int compareTo(Edge o) {
+            return Integer.compare(this.cost, o.cost);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(new StringReader(src));
+
+        int V = sc.nextInt();
+        int E = sc.nextInt();
+        // 각 정점별로 인접리스트 참조변수
+        ArrayList<Edge>[] adj = new ArrayList[V];
+        for (int i = 0; i < V; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        // 입력되어지는 간선 배열을 인접리스트에 저장
+        for (int i = 0; i < E; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+            adj[a].add(new Edge(b, c));
+            adj[b].add(new Edge(a, c));
+        }
+        // dist와 pq를 동기화.
+        PriorityQueue<Edge> pq = new PriorityQueue<>();
+        Edge[] dist = new Edge[V];
+        
+        // 시작 정점이 0이라고 가정.
+        int start = 0;
+        for (int i = 0; i < V; i++) {
+            if (i == start) { // 시작은 거리 0부터 시작.
+                dist[start] = new Edge(start, 0);
+            } else { // dist안의 거리들은 무한대로 초기화.
+                dist[i] = new Edge(i, Integer.MAX_VALUE);
+            }
+            pq.add(dist[i]);
+        }
+
+        boolean[] visit = new boolean[V];
+        int result = 0;
+        while (!pq.isEmpty()) {
+            // 현재 dist가 가장 작은 친구를 데려와서
+            Edge e = pq.poll();
+            if (visit[e.dest]) {
+                continue;
+            }
+            visit[e.dest] = true;
+            result += e.cost;
+            // 그 친구로부터 출발하는 모든 간선에 대해서
+            for (Edge next : adj[e.dest]) {
+                // 그 간선의 목적지가 아직 pq에 들어있는 정점이라면
+                // 그리고 더 빨리 도착할 수 있다면
+                if (!visit[next.dest] && dist[next.dest].cost > next.cost) {
+                    // dist갱신
+                    dist[next.dest].cost = next.cost;
+                    // decrease key연산
+                    pq.remove(dist[next.dest]);
+                    pq.add(dist[next.dest]);
+                }
+            }
+        }
+        System.out.println(result);
+        // System.out.println(Arrays.toString(p));
+    }
+    static String src = "7 11\n" +
+            "0 1 2\n" +
+            "0 2 2\n" +
+            "0 5 8\n" +
+            "1 2 1\n" +
+            "1 3 19\n" +
+            "2 5 5\n" +
+            "3 4 7\n" +
+            "3 5 11\n" +
+            "3 6 15\n" +
+            "4 5 9\n" +
+            "4 6 3";
+}
+```
