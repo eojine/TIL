@@ -10,6 +10,60 @@
 
 <br>
 
+### Swift 코드
+
+```swift
+/// 정렬되지 않은 리스트를 n개의 서브 리스트로 만들기
+func mergeSort(list: [Int]) -> [Int] {
+    if list.count <= 1 {
+        return list
+    }
+
+    var leftList: [Int] = []
+    var rightList: [Int] = []
+
+    let mid = list.count / 2
+    leftList += list[0..<mid]
+    rightList += list[mid..<list.count]
+
+    var left = mergeSort(list: leftList)
+    var right = mergeSort(list: rightList)
+
+    return merge(&left, &right)
+}
+
+/// 서브 리스트들을 합침
+func merge(_ left: inout [Int], _ right: inout [Int]) -> [Int] {
+    var result: [Int] = []
+
+    while !left.isEmpty && !right.isEmpty {
+        let value = left.first! < right.first! ? left.removeFirst() : right.removeFirst()
+        result += [value]
+    }
+
+    if !left.isEmpty {
+        result += left
+    }
+
+    if !right.isEmpty {
+        result += right
+    }
+
+    return result
+}
+```
+
+#### Generic 사용
+
+```swift
+func merge<T: Comparable>(_ left: inout [T], _ right: inout [T]) -> [T]
+func mergeSort<T: Comparable>(list: [T]) -> [T]
+```
+
+
+
+### Java 코드
+
 ```java
 import java.util.Arrays;
 
@@ -18,21 +72,21 @@ public class MergeSort {
 	public static int[] arr = { 6, 4, 8, 5, 7, 2, 9, 3, 0, 1 };
 
 	public static void main(String[] args) {
-		mergeSrot(0, arr.length);
+		mergeSort(0, arr.length);
 		System.out.println(Arrays.toString(arr));
 	}
 
 	/** 입력받은 배열의 left~right 덩어리를 반으로 쪼개서 재귀호출, 최소 단위까지 쪼갠것을 다시 합침 */
 	// 앞 포함 뒤 미포함 !
-	public static void mergeSrot(int left, int right) {
+	public static void mergeSort(int left, int right) {
 		if (right - left <= 1) {
 			return;
 		}
 
 		int mid = (left + right) / 2;
 
-		mergeSrot(left, mid);
-		mergeSrot(mid, right);
+		mergeSort(left, mid);
+		mergeSort(mid, right);
 
 		merge(left, mid, right); // mid를 중심으로 두 영역을 합쳐라.
 	}
@@ -62,4 +116,3 @@ public class MergeSort {
 	}
 }
 ```
-
